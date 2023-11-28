@@ -3,6 +3,7 @@ import useFetch from "../hooks/useFetch"
 import { useEffect, useRef, useState } from "react"
 import PokeCard from "../components/PokedexPage/PokeCard"
 import SelectType from "../components/PokedexPage/SelectType"
+import '../components/PokedexPage/styles/PokedexPage.css'
 
 const PokedexPage = () => {
 
@@ -12,18 +13,16 @@ const PokedexPage = () => {
   const trainerName = useSelector(store => store.trainerName)
 
   const url = 'https://pokeapi.co/api/v2/pokemon?limit=10&offset=0'
-  const [ pokemons, getPokemons, getByTypePokemon ] = useFetch(url)
+  const [pokemons, getPokemons, getByTypePokemon] = useFetch(url)
 
   useEffect(() => {
-    if(selectValue=== 'allPokemons'){
-    getPokemons()  
-    }else{
+    if (selectValue === 'allPokemons') {
+      getPokemons()
+    } else {
       getByTypePokemon(selectValue)
-    }
-      
-    
+    } 
   }, [selectValue])
-  
+
   const inputSearch = useRef()
 
   const handleSubmit = e => {
@@ -37,22 +36,22 @@ const PokedexPage = () => {
     const nameFiltered = poke.name.includes(inputValue)
     return nameFiltered
   }
- 
+
   return (
-    <div>
-      <p>welcome <span>{ trainerName }</span>, here select your favorite pokemon, let's go!</p>
-      <form onSubmit={handleSubmit}> 
+    <div className="pokedex__page">
+      <p>welcome <span>{trainerName}</span>, here select your favorite pokemon, let's go!</p>
+      <form onSubmit={handleSubmit}>
         <input ref={inputSearch} type="text" />
         <button>Search</button>
       </form>
       <SelectType
-      setSelectValue={setSelectValue} />
-      <div>
+        setSelectValue={setSelectValue} />
+      <div className="poke__card-container">
         {
-          pokemons?.results.filter(cbfilter).map(poke =>(
+          pokemons?.results.filter(cbfilter).map(poke => (
             <PokeCard
-            key={poke.url}
-            url={poke.url}
+              key={poke.url}
+              url={poke.url}
             />
           ))
         }
