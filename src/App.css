@@ -1,7 +1,21 @@
+body{
+    height: 100vh;
+}
 .homePage__container {
     width: auto;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     
+}
+.pokedexpage__container {
+    min-height: 100vh;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+}
+.pokeInfoPage__container {
+    height: 100vh;
+    width: auto;
+    background-color: rgba(65, 63, 63, 0.389);
 }

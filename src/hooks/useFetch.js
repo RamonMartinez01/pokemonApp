@@ -15,8 +15,9 @@ const useFetch = (url) => {
         .catch(err => console.log(err))
     }
     
-    const getTypeApi = (urlType) => {
-        axios.get(urlType)
+    const getTypeApi = (urlType, limit, offset) => {
+        const apiUrl = `${urlType}?limit=${limit}&offset=${offset}`;   
+        axios.get(apiUrl)
         .then(res => {
             const obj = {
                 results: res.data.pokemon.map(e => e.pokemon)

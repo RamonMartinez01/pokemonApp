@@ -27,24 +27,38 @@ const PokedexPage = () => {
 
   const handlePageChange = (newOffset) => {
       setOffset(newOffset)
+      if (selectValue === 'allPokemons') {
+        getPokemonWithPagination(limit, newOffset);
+    } else {
+        getByTypePokemon(selectValue, limit, newOffset);
+    }
   }
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (selectValue === 'allPokemons') {
       getPokemons()
     } else {
       getByTypePokemon(selectValue)
     } 
-  }, [selectValue])
+  }, [selectValue])*/
 
   useEffect(() => {
     // Fetch data with pagination
     if (selectValue === 'allPokemons') {
       getPokemonWithPagination(limit, offset)
     } else {
-        getByTypePokemon(selectValue);
+        getByTypePokemon(selectValue, limit, offset);
     }
 }, [selectValue, limit, offset]);
+
+useEffect(() => {
+  // Fetch data when limit changes
+  if (selectValue === 'allPokemons') {
+    getPokemonWithPagination(limit, offset);
+  } else {
+    getByTypePokemon(selectValue, limit, offset);
+  }
+}, [limit]);
 
   const inputSearch = useRef()
 
