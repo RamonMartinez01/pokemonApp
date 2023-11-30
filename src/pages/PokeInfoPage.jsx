@@ -11,12 +11,12 @@ const PokeInfoPage = () => {
 
   useEffect(() => {
     getPokemon()
-  }, [])
+  }, [id])
 
   return (
-    <div>
-      <h1>PokeInfoPage</h1>
-    </div>
+    <article>
+      
+    </article>
   )
 }
 

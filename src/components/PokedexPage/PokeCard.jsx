@@ -17,14 +17,15 @@ const PokeCard = ({ url }) => {
     navigate(`/pokedex/${infoPoke.id}`)
   }
 
-  console.log(infoPoke);
+  const colorType = infoPoke?.types[0].type.name
+ 
   return (
-    <article className="pokecard" onClick={handleNavigate}>
-      <header className="pokecard__header">
+    <article className={`pokecard ${colorType}-border`}onClick={handleNavigate}>
+      <header className={`pokecard__header ${colorType}-gradient`}>
         <img className="pokecard__img" src={infoPoke?.sprites.other["official-artwork"].front_default} alt="" />
       </header>
       <section className="pokecard__body">
-        <h3 className="pokecard__name">{infoPoke?.name}</h3>
+        <h3 className={`pokecard__name ${colorType}-color`}>{infoPoke?.name}</h3>
         <ul className="pokecard__types">
           {
             infoPoke?.types.map(infoType => (
@@ -37,7 +38,7 @@ const PokeCard = ({ url }) => {
           {
             infoPoke?.stats.map(infoStat => (
               <li className="pokecard__stat" key={infoStat.stat.url}>
-                <span className="pokecard__stat-name" >{infoStat.stat.name}</span>
+                <span className={`pokecard__stat-name ${colorType}-color`} >{infoStat.stat.name}</span>
                 <span className="pokecard__stat-value">{infoStat.base_stat}</span>
               </li>
             ))

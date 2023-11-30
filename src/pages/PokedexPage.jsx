@@ -6,14 +6,28 @@ import SelectType from "../components/PokedexPage/SelectType"
 import '../components/PokedexPage/styles/PokedexPage.css'
 
 const PokedexPage = () => {
+  
+  const [limit, setLimit] = useState(10);
+  const [offset, setOffset] = useState(0);
 
   const [inputValue, setInputValue] = useState('')
   const [selectValue, setSelectValue] = useState('allPokemons')
 
   const trainerName = useSelector(store => store.trainerName)
 
-  const url = 'https://pokeapi.co/api/v2/pokemon?limit=10&offset=0'
-  const [pokemons, getPokemons, getByTypePokemon] = useFetch(url)
+  const url = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
+  const [pokemons, getPokemons, getByTypePokemon, getPokemonWithPagination ] = useFetch(url)
+
+  
+
+  const handleLimitChange = (newLimit) => {
+      setLimit(newLimit);
+      setOffset(0); // Reset offset when changing the limit
+  };
+
+  const handlePageChange = (newOffset) => {
+      setOffset(newOffset)
+  }
 
   useEffect(() => {
     if (selectValue === 'allPokemons') {
@@ -22,6 +36,15 @@ const PokedexPage = () => {
       getByTypePokemon(selectValue)
     } 
   }, [selectValue])
+
+  useEffect(() => {
+    // Fetch data with pagination
+    if (selectValue === 'allPokemons') {
+      getPokemonWithPagination(limit, offset)
+    } else {
+        getByTypePokemon(selectValue);
+    }
+}, [selectValue, limit, offset]);
 
   const inputSearch = useRef()
 
@@ -44,8 +67,24 @@ const PokedexPage = () => {
         <input ref={inputSearch} type="text" />
         <button>Search</button>
       </form>
-      <SelectType
-        setSelectValue={setSelectValue} />
+      <div>
+        <SelectType
+          setSelectValue={setSelectValue} />
+      </div>
+      <div className="pagination__controls">
+        <label>Limit:</label>
+        <select value={limit} onChange={(e) => handleLimitChange(Number(e.target.value))}>
+          <option value={10}>10</option>
+          <option value={20}>20</option>
+          <option value={50}>50</option>
+        </select>
+        <button onClick={() => handlePageChange(offset - limit)} disabled={offset === 0}>
+          Previous
+        </button>
+        <button onClick={() => handlePageChange(offset + limit)}>
+          Next
+        </button>
+      </div>
       <div className="poke__card-container">
         {
           pokemons?.results.filter(cbfilter).map(poke => (

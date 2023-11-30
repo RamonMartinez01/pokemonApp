@@ -1,0 +1,11 @@
+.navbar__red {
+    display: block;
+    background-color: red;
+    color: red solid;
+    height: 7em;
+}
+.navbar__black {
+    display: block;
+    background-color: black;
+    height: 3em;
+}
